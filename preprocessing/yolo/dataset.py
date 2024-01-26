@@ -37,7 +37,7 @@ class YoloDataset:
         if force_yaml or not (self.path / self.yaml_file).exists():
             self.to_yaml()
 
-    def purge(self, empty_imgs_frac: float = 0.5, blank_pixel_threshold: float = 1., sample_per_image: bool = True, trial: bool = True):
+    def purge(self, empty_imgs_frac: float = 0.5, blank_pixel_threshold: float = 1., sample_per_image: bool = True, trial: bool = True, seed: int = 42):
 
         # TODO: Hardcode columns, these should be defined somewhere
         df_orig = pd.read_csv(self.path / self.metadata_file)
@@ -62,10 +62,12 @@ class YoloDataset:
         
         if sample_per_image:
             total_tifs = df_empty["tif_orig_name"].nunique()
-            df_empty = df_empty.groupby(by="tif_orig_name", group_keys=False).apply(lambda x: x.sample(min(len(x), int(n_empty / total_tifs))))
+            df_empty = df_empty\
+                .groupby(by="tif_orig_name", group_keys=False)\
+                .apply(lambda x: x.sample(min(len(x), int(n_empty / total_tifs)), random_state=seed))
         
         # Will also downsample above again if necessary
-        df_empty = df_empty.sample(n=n_empty) if df_empty.shape[0] > n_empty else df_empty
+        df_empty = df_empty.sample(n=n_empty, random_state=seed) if df_empty.shape[0] > n_empty else df_empty
 
         # Keeping non-empty images, sampled empty images, and validation images
         df_keep = pd.concat([df_train[df_train["num_objects"] > 0], df_empty, df_valid]).sort_index()
