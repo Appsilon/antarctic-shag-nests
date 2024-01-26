@@ -55,6 +55,14 @@ conda install qgis --channel conda-forge
 
 To use QGIS the `conda_env_name` in `config.py` must be the name of the environment in which QGIS is located. If you installed QGIS in the `nests` environment you do not need to update this variable.
 
+## Data
+
+The data used in this project can be found [here](https://console.cloud.google.com/storage/browser/antarctic-nests-data/all_islands). Download the data to the `data` folder using the following command (assuming you are in the `antarctic-nests` directory):
+
+```bash
+gsutil cp -r gs://antarctic-nests-data/all_islands data/
+```
+
 ## Quickstart
 
 The `end2end.ipynb` notebook contains all of the steps required to preprocess datasets (using QGIS), train and evaluate models, and post-process results.
@@ -65,9 +73,7 @@ For more information on the individiual steps and options, please see the follow
 - [Training & Inference](yolo_interface/README.md)
 - [Postprocessing](postprocessing/README.md)
 
-## Datasets
-
-The data used in this project can be found [here](https://console.cloud.google.com/storage/browser/antarctic-nests-data;tab=objects?forceOnBucketsSortingFiltering=false&project=wildlifeexplorer).
+## Adding new datasets
 
 New datasets should be added to the data directory in the following format:
 
