@@ -1,11 +1,10 @@
 import argparse
 import numpy as np
 import pandas as pd
-import yaml
 from pathlib import Path
 from PIL import Image
 from tqdm import tqdm
-from preprocessing.qgis import tile
+from preprocessing.yolo.dataset import YoloDataset
 
 
 def parse_args() -> argparse.Namespace:
@@ -24,23 +23,15 @@ def parse_args() -> argparse.Namespace:
 
 def main(tiled_tif_path: Path, tiled_label_path: Path, output_path: Path, patch_size: list[int, int] = [640, 640], metadata_file: str = "metadata.csv"):
 
+    yolo_dataset = YoloDataset(path=output_path)
     label_files = [e.stem for e in sorted(tiled_label_path.glob("*.txt"))]
-
-    p_images = output_path / "images"
-    p_labels = output_path / "labels"
-    for p in [output_path, p_images, p_labels]:
-        p.mkdir(exist_ok=True)
-
-    for split in ["train", "val"]:
-        (p_images / split).mkdir(exist_ok=True)
-        (p_labels / split).mkdir(exist_ok=True)
 
     # Putting everything in "val" as default
     data = []
     for fname in tqdm(label_files):
         
         src_label = tiled_label_path / f"{fname}.txt"
-        dst_label = p_labels / split / f"{fname}.txt"
+        dst_label = yolo_dataset.path / yolo_dataset.label_dir / yolo_dataset.val_dir / f"{fname}.txt"
         
         with open(src_label) as f:
             s = f.read()
@@ -50,7 +41,7 @@ def main(tiled_tif_path: Path, tiled_label_path: Path, output_path: Path, patch_
             f.write(s2)
 
         src_img = tiled_tif_path / f"{fname}.tif"
-        dst_img = p_images / split / f"{fname}.jpg"
+        dst_img = yolo_dataset.path / yolo_dataset.image_dir / yolo_dataset.val_dir / f"{fname}.jpg"
         im = Image.open(src_img).convert("RGB")
         im = im.resize((patch_size[0], patch_size[1]), Image.LANCZOS)
         im.save(dst_img)
@@ -63,7 +54,7 @@ def main(tiled_tif_path: Path, tiled_label_path: Path, output_path: Path, patch_
             "label_path": dst_label,
             "tif_patch_path": src_img,
             "tif_orig_name": src_img.stem.split("_", 1)[1],
-            "split": split,
+            "split": yolo_dataset.val_dir,
             "img_width": patch_size[0],
             "img_height": patch_size[1],
             "num_objects": s.count("\n"),
@@ -73,15 +64,7 @@ def main(tiled_tif_path: Path, tiled_label_path: Path, output_path: Path, patch_
     df = pd.DataFrame(data)
     df.to_csv(output_path / metadata_file, index=False)
 
-    meta = {
-        "train": str(p_images / "train"),
-        "val": str(p_images / "val"),
-        "is_coco": False,
-        "nc": 1,
-        "names": ["nest"],
-    }
-    with open(output_path / "dataset.yaml", "w") as f:
-        yaml.dump(meta, f)
+    yolo_dataset.to_yaml()
 
 
 if __name__ == "__main__":

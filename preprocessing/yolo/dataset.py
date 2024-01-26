@@ -2,6 +2,7 @@ import itertools
 import pandas as pd
 import yaml
 from pathlib import Path
+from config import settings
 
 
 class YoloDataset:
@@ -22,7 +23,7 @@ class YoloDataset:
     yaml_file = "dataset.yaml"
     metadata_file = "metadata.csv"
 
-    def __init__(self, path: Path, force_yaml: bool = False, **kwargs):
+    def __init__(self, path: Path, update_metadata: bool = False, **kwargs):
 
         self.path = path
 
@@ -34,8 +35,11 @@ class YoloDataset:
             (self.path / subdir / subsubdir).mkdir(exist_ok=True, parents=True)
 
         # Creating yaml file if does not already exist
-        if force_yaml or not (self.path / self.yaml_file).exists():
+        if update_metadata or not (self.path / self.yaml_file).exists():
             self.to_yaml()
+
+            if (self.path / self.metadata_file).exists():
+                self.update_metadata_paths()
 
     def purge(self, empty_imgs_frac: float = 0.5, blank_pixel_threshold: float = 1., sample_per_image: bool = True, trial: bool = True, seed: int = 42):
 
@@ -88,6 +92,15 @@ class YoloDataset:
             # Replace metadata file with kept files only
             df_keep.to_csv(self.path / self.metadata_file, index=False)
 
+    def update_metadata_paths(self):
+        # Ensure metadata csv is pointing to correct location, needed if folders are moved around
+        
+        # TODO: Hardcode columns, these should be defined somewhere
+        data = pd.read_csv(self.path / self.metadata_file)
+        data["label_path"].apply(lambda x: self.path / "/".join(Path(x).parts[-3:]))
+        data["img_path"].apply(lambda x: self.path / "/".join(Path(x).parts[-3:]))
+        data.to_csv(self.path / self.metadata_file, index=False)
+
     def to_yaml(self):
         
         yaml_data = {
@@ -101,3 +114,24 @@ class YoloDataset:
         with open(self.path / self.yaml_file, "w") as f:
             
             yaml.dump(yaml_data, f)
+
+
+def init_from_data_folder(data_path: Path = settings.data_path):
+    """
+    Initialise all datasets within the data path.
+    Recursively searches for directories with both an image_dir and label_dir (as defined by YoloDataset),
+    creates the expected folder structure and a yaml file with the correct paths.
+    """
+    for d in data_path.rglob("*"):
+
+        if d.stem == "lost+found":
+            continue
+        
+        if d.is_dir() and (d / YoloDataset.image_dir).exists() and (d / YoloDataset.label_dir).exists():
+            print(f"Initialising YOLO dataset: {d.relative_to(data_path)}")
+            YoloDataset(d, update_metadata=True)
+
+
+if __name__ == "__main__":
+    
+    init_from_data_folder()
