@@ -1,4 +1,4 @@
-# antarctic-shag-nests
+# antarctic-nests
 
 Experiments on the data recieved from prof. Robert Bialik - regarding identification of Cormoran nests in drone footage of an Antarctic island.
 
@@ -21,7 +21,7 @@ pip install -r requirements.txt
 
 ### YOLOv6
 
-From within the `Antartic-nests` directory, install YOLOv6 (or other YOLO versions):
+From within the `antarctic-nests` directory, install YOLOv6:
 
 ```bash
 git clone -b v3 https://github.com/meituan/YOLOv6
@@ -32,6 +32,8 @@ pip install -r requirements.txt
 Note that currently the repo works with the `v3` release of YOLOv6.
 
 Both training and inference are carried out within the YOLOv6 `runs` directory, which are then copied over to the main repositories `results` directory.
+
+An additional weights file must be downloaded in order to carry out training, which YOLO will attempt to download automatically. However, if this does not work, create a `YOLOv6/weights` directory, download the weights file using [this link](https://github.com/meituan/YOLOv6/releases/download/0.3.0/yolov6l.pt), and place it into the folder.
 
 During training the necessary folders will be created in the YOLOv6 directory, however for ad-hoc analysis an model folder will have to be placed in the `YOLOv6/runs/train/` directory with the following structure:
 
