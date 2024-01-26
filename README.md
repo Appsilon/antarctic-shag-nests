@@ -1,6 +1,6 @@
 # antarctic-nests
 
-Experiments on the data recieved from prof. Robert Bialik - regarding identification of Cormoran nests in drone footage of an Antarctic island.
+Experiments on the data recieved from prof. Robert Bialik - regarding identification of Cormorant nests in drone footage of an Antarctic island.
 
 ## Installation
 
@@ -14,8 +14,8 @@ conda activate nests
 Install the project:
 
 ```bash
-git clone https://github.com/Appsilon/Antarctic-nests.git
-cd Antarctic-nests
+git clone https://github.com/Appsilon/antarctic-nests.git
+cd antarctic-nests
 pip install -r requirements.txt
 ```
 
