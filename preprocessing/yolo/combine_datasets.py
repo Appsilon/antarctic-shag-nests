@@ -64,11 +64,11 @@ def main(train_paths: list[Path], val_paths: list[Path], name: str, output: Path
             # TODO: Hardcode columns, these should be defined somewhere
             for subdir, metadata_col in zip((dataset.image_dir, dataset.label_dir), ("img_path", "label_path")):
             
-                to_path = output_path / subdir / set_dir
+                to_path = dataset.path / subdir / set_dir
 
                 for _, row in df.iterrows():
                     
-                    from_path = Path(row[metadata_col])
+                    from_path = dset_path / row[metadata_col]
                     shutil.copy2(from_path, to_path)
 
                 df[metadata_col] = df[metadata_col].apply(lambda x: to_path / Path(x).name)
@@ -80,8 +80,7 @@ def main(train_paths: list[Path], val_paths: list[Path], name: str, output: Path
     print(f"Total train: {full_df[full_df['split'] == 'train'].shape[0]}")
     print(f"Total val: {full_df[full_df['split'] == 'val'].shape[0]}")
     
-    full_df.to_csv(output_path / YoloDataset.metadata_file, index=False)
-
+    dataset.write_metadata(full_df)
 
     return dataset
 

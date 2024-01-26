@@ -23,7 +23,7 @@ class YoloDataset:
     yaml_file = "dataset.yaml"
     metadata_file = "metadata.csv"
 
-    def __init__(self, path: Path, update_metadata: bool = False, **kwargs):
+    def __init__(self, path: Path, update_yaml: bool = False, **kwargs):
 
         self.path = path
 
@@ -35,11 +35,8 @@ class YoloDataset:
             (self.path / subdir / subsubdir).mkdir(exist_ok=True, parents=True)
 
         # Creating yaml file if does not already exist
-        if update_metadata or not (self.path / self.yaml_file).exists():
+        if update_yaml or not (self.path / self.yaml_file).exists():
             self.to_yaml()
-
-            if (self.path / self.metadata_file).exists():
-                self.update_metadata_paths()
 
     def purge(self, empty_imgs_frac: float = 0.5, blank_pixel_threshold: float = 1., sample_per_image: bool = True, trial: bool = True, seed: int = 42):
 
@@ -81,25 +78,16 @@ class YoloDataset:
         # Delete files in df_purge
         for _, row in df_purge.iterrows():
 
-            print(f"Deleting: {Path(row['img_path']).relative_to(self.path)}")
+            print(f"Deleting: {row['img_path']}")
             if not trial:
-                Path(row["img_path"]).unlink()
-                Path(row["label_path"]).unlink()
+                (self.path / row["img_path"]).unlink()
+                (self.path / row["label_path"]).unlink()
         
         if trial:
             print(f"NOTE: Run in trial mode, no files were deleted")
         else:
             # Replace metadata file with kept files only
-            df_keep.to_csv(self.path / self.metadata_file, index=False)
-
-    def update_metadata_paths(self):
-        # Ensure metadata csv is pointing to correct location, needed if folders are moved around
-        
-        # TODO: Hardcode columns, these should be defined somewhere
-        data = pd.read_csv(self.path / self.metadata_file)
-        data["label_path"].apply(lambda x: self.path / "/".join(Path(x).parts[-3:]))
-        data["img_path"].apply(lambda x: self.path / "/".join(Path(x).parts[-3:]))
-        data.to_csv(self.path / self.metadata_file, index=False)
+            self.write_metadata(df_keep)
 
     def to_yaml(self):
         
@@ -115,6 +103,13 @@ class YoloDataset:
             
             yaml.dump(yaml_data, f)
 
+    def write_metadata(self, df: pd.DataFrame):
+
+        # TODO: Hardcode columns, these should be defined somewhere
+        df["label_path"] = df["label_path"].apply(lambda x: Path(x).relative_to(self.path) if Path(x).is_relative_to(self.path) else x)
+        df["img_path"] = df["img_path"].apply(lambda x: Path(x).relative_to(self.path) if Path(x).is_relative_to(self.path) else x)
+        df.to_csv(self.path / self.metadata_file, index=False)
+
 
 def init_from_data_folder(data_path: Path = settings.data_path):
     """
@@ -129,7 +124,7 @@ def init_from_data_folder(data_path: Path = settings.data_path):
         
         if d.is_dir() and (d / YoloDataset.image_dir).exists() and (d / YoloDataset.label_dir).exists():
             print(f"Initialising YOLO dataset: {d.relative_to(data_path)}")
-            YoloDataset(d, update_metadata=True)
+            YoloDataset(d, update_yaml=True)
 
 
 if __name__ == "__main__":

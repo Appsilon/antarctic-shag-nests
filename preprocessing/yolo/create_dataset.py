@@ -52,7 +52,6 @@ def main(tiled_tif_path: Path, tiled_label_path: Path, output_path: Path, patch_
         data.append({
             "img_path": dst_img,
             "label_path": dst_label,
-            "tif_patch_path": src_img,
             "tif_orig_name": src_img.stem.split("_", 1)[1],
             "split": yolo_dataset.val_dir,
             "img_width": patch_size[0],
@@ -62,9 +61,9 @@ def main(tiled_tif_path: Path, tiled_label_path: Path, output_path: Path, patch_
         })
 
     df = pd.DataFrame(data)
-    df.to_csv(output_path / metadata_file, index=False)
 
     yolo_dataset.to_yaml()
+    yolo_dataset.write_metadata(df)
 
 
 if __name__ == "__main__":
