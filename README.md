@@ -1,6 +1,7 @@
-# antarctic-nests
+# Spot the shag!
 
-Experiments on the data recieved from prof. Robert Bialik - regarding identification of Cormorant nests in drone footage of an Antarctic island.
+This repo contains the source code for reproducing the results presented in the paper: [Using machine learning to count Antarctic shag (Leucocarbo bransfieldensis) nests on Remotely Piloted Aircraft Systems images
+](url).
 
 ## Installation
 
