@@ -3,3 +3,5 @@ data/
 results/
 *.jpg
 *.csv
+
+!plots_for_paper/**

@@ -1,0 +1,52 @@
+Location and date of capture,Split,F1 score,mAP[0.5:0.95],n_nests,n_preds,TP,FP,FN
+Cape Melville 2022-12-04,train,0.997,0.786,459,460,458,2,1
+Cape Melville 2022-12-12,train,0.998,0.766,459,461,459,2,0
+Shag Rock 2019-11-26,train,1.000,0.800,69,69,69,0,0
+Shag Rock 2019-12-20,train,1.000,0.746,62,62,62,0,0
+Shag Rock 2020-01-30,train,0.992,0.703,59,60,59,1,0
+Shag Rock 2020-02-22,train,1.000,0.694,60,60,60,0,0
+Shag Rock 2020-09-20,train,0.991,0.762,54,55,54,1,0
+Shag Rock 2020-10-08,train,1.000,0.745,57,57,57,0,0
+Shag Rock 2020-11-15,train,1.000,0.788,74,74,74,0,0
+Shag Rock 2020-12-19,train,1.000,0.779,71,71,71,0,0
+Shag Rock 2020-12-26,train,1.000,0.764,71,71,71,0,0
+Shag Rock 2021-01-12,train,0.993,0.745,70,71,70,1,0
+Shag Rock 2021-01-28,train,1.000,0.735,66,66,66,0,0
+Shag Rock 2021-02-04,train,0.992,0.746,62,63,62,1,0
+Shag Rock 2021-03-26,train,1.000,0.791,65,65,65,0,0
+Shag Rock 2021-04-13,train,1.000,0.768,65,65,65,0,0
+Shag Rock 2020-01-10,train,1.000,0.763,58,58,58,0,0
+Shag Rock 2020-03-17,train,1.000,0.700,59,59,59,0,0
+Shag Rock 2020-11-26,train,1.000,0.807,75,75,75,0,0
+Shag Rock 2021-02-21,train,1.000,0.739,68,68,68,0,0
+Shag Rock 2021-03-10,train,1.000,0.764,72,72,72,0,0
+Shag Rock 2021-09-30,train,1.000,0.772,79,79,79,0,0
+Shag Rock 2021-11-03,train,0.994,0.768,81,82,81,1,0
+Shag Rock 2021-11-24,train,1.000,0.771,80,80,80,0,0
+Shag Rock 2021-12-06,train,1.000,0.776,80,80,80,0,0
+Shag Rock 2021-12-30,train,1.000,0.762,77,77,77,0,0
+Shag Rock 2022-01-05,train,1.000,0.758,75,75,75,0,0
+Shag Rock 2022-01-12,train,1.000,0.729,76,76,76,0,0
+Shag Rock 2022-01-23,train,1.000,0.731,77,77,77,0,0
+Shag Rock 2022-02-09,train,1.000,0.722,69,69,69,0,0
+Shag Rock 2022-02-18,train,1.000,0.722,74,74,74,0,0
+Shag Rock 2022-02-28,train,0.993,0.714,69,68,68,0,1
+Shag Rock 2022-02-28,train,1.000,0.770,69,69,69,0,0
+Turret Point 2020-12-31,valid,0.955,0.635,70,64,64,0,6
+Turret Point 2021-11-23,valid,1.000,0.723,67,67,67,0,0
+Turret Point 2022-01-06,valid,0.934,0.472,63,59,57,2,6
+Shag Rock 2022-09-24,test-over_time,0.993,0.553,73,74,73,1,0
+Shag Rock 2022-11-15,test-over_time,0.981,0.513,79,82,79,3,0
+Turret Point 2022-10-29,test-over_time,0.991,0.642,58,59,58,1,0
+Turret Point 2022-12-12,test-over_time,0.974,0.505,59,56,56,0,3
+Cape Melville 2023-11-11,test-over_time,0.946,0.312,478,482,454,28,24
+Unnamed Island B 2022-12-26,test-over_location,1.000,0.360,9,9,9,0,0
+Unnamed Island A 2022-12-12,test-over_location,0.985,0.549,32,33,32,1,0
+Trowbridge Island 2022-12-12,test-over_location,1.000,0.467,7,7,7,0,0
+Nelson Island 2018-12-27,test-over_source,0.949,0.485,72,65,65,0,7
+Fregata Island 2016-12-20,test-over_source,0.650,0.189,27,13,13,0,14
+Kwarecki Island 2016-12-28,test-over_source,0.909,0.211,6,5,5,0,1
+Rzepecki Island 2016-12-30,test-over_source,0.967,0.332,62,58,58,0,4
+Unnamed Island C 2016-12-25,test-over_source,0.842,0.317,11,8,8,0,3
+Fregata Island 2016-12-11,test-over_source,0.926,0.328,29,25,25,0,4
+Rzepecki Island 2016-12-28,test-over_source,0.615,0.184,63,28,28,0,35
