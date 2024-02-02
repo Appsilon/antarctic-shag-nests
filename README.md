@@ -58,10 +58,10 @@ To use QGIS the `conda_env_name` in `config.py` must be the name of the environm
 
 ## Data
 
-The data used in this project can be found [here](https://console.cloud.google.com/storage/browser/antarctic-nests-data/all_islands). Download the data to the `data` folder using the following command (assuming you are in the `antarctic-nests` directory):
+The data used in this project can be found [here](https://console.cloud.google.com/storage/browser/_details/antarctic-nests-data/all_islands.zip?project=wildlifeexplorer). Download the `.zip` archive and unzip it into the `data` folder. You can use the following command for the download (assuming you are in the `antarctic-nests/data` directory):
 
 ```bash
-gsutil cp -r gs://antarctic-nests-data/all_islands data/
+gsutil cp gs://antarctic-nests-data/all_islands.zip
 ```
 
 ## Quickstart
@@ -96,3 +96,7 @@ dataset_name
 In the case of multiple locations contained within a single shapefile, the dataset should be split into multiple datasets, each containing the TIFF files that correspond to that location and the shapefile.
 
 The shapefile column and identifier that separates the locations must be provided in the `split_col` and `split_id` parameters, see the [end2end notebook](end2end.ipynb) for an example.
+
+### Pre-trained weights
+
+In the [release](https://github.com/Appsilon/antarctic-nests/releases/tag/model) you will find the weights for the model results from which we published in the paper. To make use of them, download the attached `.zip` file and unzip into `YOLOv6/runs/train/...`.
