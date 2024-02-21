@@ -100,3 +100,7 @@ The shapefile column and identifier that separates the locations must be provide
 ### Pre-trained weights
 
 In the [release](https://github.com/Appsilon/antarctic-nests/releases/tag/model) you will find the weights for the model results from which we published in the paper. To make use of them, download the attached `.zip` file and unzip into `YOLOv6/runs/train/...`.
+
+### Plots from paper
+
+To reproduce plots from the published paper, follow the [plots_for_paper](plots_for_paper.ipynb) notebook.
