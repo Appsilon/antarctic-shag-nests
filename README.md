@@ -64,6 +64,8 @@ The data used in this project can be found [here](https://console.cloud.google.c
 gsutil cp gs://antarctic-nests-data/all_islands.zip
 ```
 
+The predictions from the released model on all_islands, can be found [here](https://console.cloud.google.com/storage/browser/_details/antarctic-nests-data/all_islands_predictions_from_paper.zip?&project=wildlifeexplorer).
+
 ## Quickstart
 
 The `end2end.ipynb` notebook contains all of the steps required to preprocess datasets (using QGIS), train and evaluate models, and post-process results.
